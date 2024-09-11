@@ -28,10 +28,9 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=2
-FILE_NAME_0=33;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.html;0;4
-FILE_NAME_1=339;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Fhello.py;0;4
-FILE_NAME_2=0;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Fmysql_lis.py;0;4
+current_page=0
+FILE_NAME_0=26;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Finitial_page.html;0;4
+FILE_NAME_1=0;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.py;0;4
 
 [VTE]
 last_dir=/root
