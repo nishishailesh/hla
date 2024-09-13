@@ -28,9 +28,11 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=1
-FILE_NAME_0=617;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.py;0;2
-FILE_NAME_1=1959;HTML;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Finitial_page.html;0;2
+current_page=3
+FILE_NAME_0=445;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.py;0;2
+FILE_NAME_1=1966;HTML;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Finitial_page.html;0;2
+FILE_NAME_2=15;HTML;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.html;0;2
+FILE_NAME_3=0;None;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2F19012024%20LSA%20II_20240119_150430.csv;0;2
 
 [VTE]
 last_dir=/root

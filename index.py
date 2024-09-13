@@ -5,10 +5,7 @@ from datetime import datetime
 
 basepath="hla"
 
-@route('/')
-def index():
-    ddd=datetime.today().strftime('%Y-%m-%d %M:%S') 
-    return template("index.html",variable=ddd,basepath=basepath)
+
 
 
 
@@ -22,3 +19,6 @@ def start():
 
 
     
+@route('/')
+def index():
+    return template("index.html")
