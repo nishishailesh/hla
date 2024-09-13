@@ -7,10 +7,10 @@ auto_continue_multiline=true
 final_new_line=true
 ensure_convert_new_lines=false
 strip_trailing_spaces=false
-replace_tabs=false
+replace_tabs=true
 
 [indentation]
-indent_width=4
+indent_width=2
 indent_type=0
 indent_hard_tab_width=8
 detect_indent=false
@@ -28,9 +28,9 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=0
-FILE_NAME_0=26;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Finitial_page.html;0;4
-FILE_NAME_1=0;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.py;0;4
+current_page=1
+FILE_NAME_0=617;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.py;0;2
+FILE_NAME_1=1959;HTML;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Finitial_page.html;0;2
 
 [VTE]
 last_dir=/root

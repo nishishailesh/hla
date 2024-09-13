@@ -5,6 +5,8 @@ os.chdir(os.path.dirname(__file__))
 
 sys.path.append('/usr/share/nchs/hla')
 
+
+
 import bottle
 import index
 # ... build or import your bottle application here ...
