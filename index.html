@@ -1,4 +1,10 @@
-<form action="./start" method="post">
+<% 
+  from bottle import url
+  start_url=url("/start")
+  #print("######:"+u)
+%>
+
+<form action={{start_url}} method="post">
   <div class="container">
     <label for="uname"><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="uname" required>
@@ -8,4 +14,4 @@
 
     <button type="submit">Login</button>
   </div>
-</form> 
+</form>

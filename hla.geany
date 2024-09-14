@@ -29,10 +29,10 @@ long_line_column=72
 
 [files]
 current_page=3
-FILE_NAME_0=445;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.py;0;2
-FILE_NAME_1=1966;HTML;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Finitial_page.html;0;2
-FILE_NAME_2=15;HTML;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.html;0;2
-FILE_NAME_3=0;None;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2F19012024%20LSA%20II_20240119_150430.csv;0;2
+FILE_NAME_0=1756;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.py;0;2
+FILE_NAME_1=30;HTML;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Finitial_page.html;0;2
+FILE_NAME_2=11470;Python;0;EUTF-8;0;1;0;%2Froot%2Fmdi%2Fbs600m%2Fhl7%2Fhl7_outbox.py;0;2
+FILE_NAME_3=1680;None;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2F19012024%20LSA%20II_20240119_150430.csv;0;2
 
 [VTE]
 last_dir=/root
