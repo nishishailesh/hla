@@ -1,0 +1,10 @@
+<!-- {{all_data}} -->
+<h4>Single Antigen Bead Assay for detecting HLA antibodies in blood</h4>
+<h5>Association between Antigen ID and HLA class/types/sub-types/serology</h5>
+<i>Note: Verify these details with kit/lot insert</i>
+<table border=1>
+<tr><th>Antigen ID</th><th>HLA types</th><th>HLA Serology</th></tr>
+%for x in all_data:
+  <tr><td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td></tr>
+%end
+</table>

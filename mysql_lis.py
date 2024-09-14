@@ -23,6 +23,9 @@ class mysql_lis(object):
   def get_single_row(self,cur):
     return cur.fetchone()
 
+  def get_all_rows(self,cur):
+    return cur.fetchall()
+        
   def close_cursor(self,cur):
     cur.close()
 

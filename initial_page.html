@@ -1,8 +1,20 @@
-Initial Page
-{{post_data}}<br>
+<% 
+  from bottle import url
+  view_antigen_url=url("/view_antigen")
+  #print("######:"+u)
+%>
+
+<form method=post>
+  <button type=submit formaction={{view_antigen_url}} formtarget=_blank name=action value=view_antigen>View Antigen database</button>
+  <button type=submit name=action value=edit_antigen>Edit Antigen database</button>
+  <button type=submit name=action value=new_antigen>Add new Antigen to database</button>
+</form>
+
+<br>============To do==================<br>
+Initial Page<br>
+<!-- {{post_data}}<br> -->
 To Do:<br>
 <h5>Potential Recipient</h5>
-
 import single antigen beads assay plate CSV of potential recipient<br>
 search single antigen beads assay of a potential recipient<br>
 edit single antigen beads assay of a potential recipient<br>

@@ -6,8 +6,8 @@ from mysql_lis import mysql_lis
 import sys, logging, bcrypt
 #For mysql password
 sys.path.append('/var/gmcs_config')
-###########Setup this for getting database,user,pass##########
-import astm_var_clg as astm_var
+###########Setup this for getting database,user,pass for HLA database##########
+import astm_var_hla as astm_var
 ##############################################################
 logging.basicConfig(filename="/var/log/hla.log",level=logging.DEBUG)  
 
@@ -23,7 +23,19 @@ def start():
 def index():
     return template("index.html")
 
-
+@route('/view_antigen', method='POST')
+def view_antigen():
+  m=mysql_lis()
+  con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)
+  cur=m.run_query(con,prepared_sql='select * from antigen',data_tpl=())
+  all_data=m.get_all_rows(cur)
+  if(all_data==None):
+    logging.debug('antigen data not found')
+    return False
+  m.close_cursor(cur)
+  m.close_link(con)  
+  return template("view_antigen.html",all_data=all_data)
+    
 def verify_user():
   if(request.forms.get("uname")!=None and request.forms.get("psw")!=None):
     uname=request.forms.get("uname")
