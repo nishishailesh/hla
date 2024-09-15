@@ -3,7 +3,9 @@
 from bottle import template, request, post, route, redirect
 from datetime import datetime
 from mysql_lis import mysql_lis
-import sys, logging, bcrypt
+import sys, logging, bcrypt, csv
+from io import StringIO
+
 #For mysql password
 sys.path.append('/var/gmcs_config')
 ###########Setup this for getting database,user,pass for HLA database##########
@@ -35,6 +37,35 @@ def view_antigen():
   m.close_cursor(cur)
   m.close_link(con)  
   return template("view_antigen.html",all_data=all_data)
+
+@route('/get_SAB_plate_csv', method='POST')
+def get_SAB_plate_csv():
+  return template("get_SAB_plate_csv.html")
+
+@route('/import_SAB_plate_csv', method='POST')
+def do_upload():
+  upload= request.files.get('SAB_csv')
+  line_data=upload.file.read()
+  rd = csv.reader(StringIO(line_data.decode("UTF-8")), delimiter=',')
+  msg=()
+  median=[]
+  next_message=''
+  all_data=[]
+  for i in rd:
+    all_data=all_data+[i]
+    if(len(i)>=2):
+      if(i[0]=='DataType:' and i[1]=='Median'):
+        msg=msg+("Median data will be analysed",)
+        next_message='Median'
+        continue
+    if(next_message=='Median'):
+      if(len(i)==0):
+        next_message=''
+      median=median+[i]
+  return template("import_SAB_plate_csv.html",file_data=all_data,msg=msg,median=median)
+
+def analyse_file_data(file_data):
+  pass
     
 def verify_user():
   if(request.forms.get("uname")!=None and request.forms.get("psw")!=None):

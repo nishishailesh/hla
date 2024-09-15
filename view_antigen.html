@@ -1,10 +1,13 @@
 <!-- {{all_data}} -->
-<h4>Single Antigen Bead Assay for detecting HLA antibodies in blood</h4>
-<h5>Association between Antigen ID and HLA class/types/sub-types/serology</h5>
-<i>Note: Verify these details with kit/lot insert</i>
-<table border=1>
-<tr><th>Antigen ID</th><th>HLA types</th><th>HLA Serology</th></tr>
-%for x in all_data:
-  <tr><td>{{x[0]}}</td><td>{{x[1]}}</td><td>{{x[2]}}</td></tr>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<h4 class="text-success">Single Antigen Bead Assay for detecting HLA antibodies in blood</h4>
+<h5 class="text-primary">Association between Antigen ID and HLA class/types/sub-types/serology</h5>
+<i class="text-info">Note: Verify these details with kit/lot insert</i>
+<table class="table table-sm table-striped">
+<tr><th>Antigen ID</th><th>HLA Type</th><th>HLA Serology</th></tr>
+%for antigen in all_data:
+  <tr><td>{{antigen[0]}}</td><td>{{antigen[1]}}</td><td>{{antigen[2]}}</td></tr>
 %end
 </table>

@@ -1,0 +1,10 @@
+SAB Plat CSV
+<% 
+  from bottle import url
+  import_SAB_plate_csv_url=url("/import_SAB_plate_csv")
+%>
+
+<form action={{import_SAB_plate_csv_url}} method="post" enctype="multipart/form-data">
+  Select SAB data csv file: <input type="file" name="SAB_csv" />
+  <button type="submit" name=action value="start_upload">Import</button>
+</form>
