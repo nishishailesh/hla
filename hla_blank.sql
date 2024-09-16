@@ -16,35 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `ABORh`
---
-
-DROP TABLE IF EXISTS `ABORh`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ABORh` (
-  `patient_id` varchar(50) NOT NULL,
-  `ABO` varchar(10) NOT NULL,
-  `Rh` varchar(1) NOT NULL,
-  PRIMARY KEY (`patient_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `HLA`
---
-
-DROP TABLE IF EXISTS `HLA`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `HLA` (
-  `patient_id` varchar(50) NOT NULL,
-  `HLA_Class` int(11) NOT NULL,
-  `HLA_Type` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `SAB`
 --
 
@@ -54,7 +25,7 @@ DROP TABLE IF EXISTS `SAB`;
 CREATE TABLE `SAB` (
   `patient_id` varchar(50) NOT NULL,
   `antigen_id` int(11) NOT NULL,
-  `mfi` int(11) NOT NULL,
+  `mfi_median` int(11) NOT NULL,
   PRIMARY KEY (`patient_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -71,6 +42,42 @@ CREATE TABLE `antigen` (
   `HLA_Type` varchar(100) NOT NULL,
   `HLA_Serology` varchar(100) NOT NULL,
   PRIMARY KEY (`antigen_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `patient`
+--
+
+DROP TABLE IF EXISTS `patient`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `patient` (
+  `patient_id` bigint(20) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `ABO` varchar(10) NOT NULL,
+  `Rh` int(10) NOT NULL,
+  `HLA-A allele-1` varchar(10) NOT NULL,
+  `HLA-A allele-2` varchar(10) NOT NULL,
+  `HLA-B allele-1` varchar(10) NOT NULL,
+  `HLA-B allele-2` varchar(10) NOT NULL,
+  `HLA-Bw allele-1` varchar(10) NOT NULL,
+  `HLA-Bw allele-2` varchar(10) NOT NULL,
+  `HLA-Cw allele-1` varchar(10) NOT NULL,
+  `HLA-Cw allele-2` varchar(10) NOT NULL,
+  `HLA-DRB1 allele-1` varchar(10) NOT NULL,
+  `HLA-DRB1 allele-2` varchar(10) NOT NULL,
+  `HLA-DRB3 allele-1` varchar(10) NOT NULL,
+  `HLA-DRB3 allele-2` varchar(10) NOT NULL,
+  `HLA-DRB4 allele-1` varchar(10) NOT NULL,
+  `HLA-DRB4 allele-2` varchar(10) NOT NULL,
+  `HLA-DRB5 allele-1` varchar(10) NOT NULL,
+  `HLA-DRB5 allele-2` varchar(10) NOT NULL,
+  `HLA-DQA1 allele-1` varchar(10) NOT NULL,
+  `HLA-DQA1 allele-2` varchar(10) NOT NULL,
+  `HLA-DQB1 allele-1` varchar(10) NOT NULL,
+  `HLA-DQB1 allele-2` varchar(10) NOT NULL,
+  PRIMARY KEY (`patient_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -104,4 +111,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-16  0:52:34
+-- Dump completed on 2024-09-16 13:01:48
