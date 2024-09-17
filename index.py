@@ -64,6 +64,11 @@ def do_upload():
       median=median+[i]
   return template("import_SAB_plate_csv.html",file_data=all_data,msg=msg,median=median)
 
+@route('/get_patient_detail', method='POST')
+def get_patient_detail():
+  return template("get_patient_detail.html")
+  
+
 def analyse_file_data(file_data):
   pass
     

@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Give name of HLA database:"
 read d
-mysqldump  -d $d > hla_blank.sql 
+mysqldump  -d $d > "hla_blank.sql"
 tnames='
 antigen
 '

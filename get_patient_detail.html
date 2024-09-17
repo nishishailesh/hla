@@ -1,0 +1,38 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<h5 class="text-info">Fill Patient Details</h5>
+
+<%
+field_list=[
+"patient_id",
+"name",
+"ABO",
+"Rh",
+"HLA-A_allele-1",
+"HLA-A_allele-2",
+"HLA-B_allele-1",
+"HLA-B_allele-2",
+"HLA-Bw_allele-1",
+"HLA-Bw_allele-2",
+"HLA-Cw_allele-1",
+"HLA-Cw_allele-2",
+"HLA-DRB1_allele-1",
+"HLA-DRB1_allele-2",
+"HLA-DRB3_allele-1",
+"HLA-DRB3_allele-2",
+"HLA-DRB4_allele-1",
+"HLA-DRB4_allele-2",
+"HLA-DRB5_allele-1",
+"HLA-DRB5_allele-2",
+"HLA-DQA1_allele-1",
+"HLA-DQA1_allele-2",
+"HLA-DQB1_allele-1",
+"HLA-DQB1_allele-2"]
+%>
+
+%for field in field_list:
+ <tr><td>{{field}}:<input type=text name={{field}}></td></tr>
+%end
+
+

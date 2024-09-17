@@ -2,6 +2,7 @@
   from bottle import url
   view_antigen_url=url("/view_antigen")
   get_SAB_plate_csv_url=url("/get_SAB_plate_csv")
+  get_patient_detail_url=url("/get_patient_detail")
   #print("######:"+u)
 %>
 
@@ -14,6 +15,11 @@
 <form method=post>
   <button type=submit formaction={{get_SAB_plate_csv_url}} formtarget=_blank name=action value=get_SAB_plate_csv>Get SAB Plate csv</button>
   <button type=submit name=action value=edit_antigen>Edit Patient SAB</button>
+</form>
+
+
+<form method=post>
+  <button type=submit formaction={{get_patient_detail_url}} formtarget=_blank name=action value=get_SAB_plate_csv>Insert Patient Details (including HLA and ABORh)</button>
 </form>
 
 <br>============To do==================<br>
