@@ -1,38 +1,69 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+% include("bootstrap_links.html")
 <h5 class="text-info">Fill Patient Details</h5>
 
-<%
-field_list=[
-"patient_id",
-"name",
-"ABO",
-"Rh",
-"HLA-A_allele-1",
-"HLA-A_allele-2",
-"HLA-B_allele-1",
-"HLA-B_allele-2",
-"HLA-Bw_allele-1",
-"HLA-Bw_allele-2",
-"HLA-Cw_allele-1",
-"HLA-Cw_allele-2",
-"HLA-DRB1_allele-1",
-"HLA-DRB1_allele-2",
-"HLA-DRB3_allele-1",
-"HLA-DRB3_allele-2",
-"HLA-DRB4_allele-1",
-"HLA-DRB4_allele-2",
-"HLA-DRB5_allele-1",
-"HLA-DRB5_allele-2",
-"HLA-DQA1_allele-1",
-"HLA-DQA1_allele-2",
-"HLA-DQB1_allele-1",
-"HLA-DQB1_allele-2"]
-%>
-
-%for field in field_list:
- <tr><td>{{field}}:<input type=text name={{field}}></td></tr>
-%end
-
-
+<form method=post action=save_new_patient>
+<table class="table table-sm table table striped">
+    <tr>
+        <td>patient_id</td><td><input type=number name=patient_id></td>
+        <td>name</td><td><input type=text name=name></td>
+    </tr>
+    <tr>
+        <td>ABO</td>
+        <td>
+            <select name=ABO>
+                <option>A</option>
+                <option>B</option>
+                <option>AB</option>
+                <option>O</option>                                                
+            </select>
+        </td>
+        <td>Rh</td>
+        <td>
+            <select name=Rh>
+                <option>Positive</option>
+                <option>Negative</option>
+            </select>
+        </td>        
+    </tr>
+    <tr>
+        <td>HLA-A_allele-1</td><td><input type=text name=HLA-A_allele-1></td>
+        <td>HLA-A_allele-2</td><td><input type=text name=HLA-A_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-B_allele-1</td><td><input type=text name=HLA-B_allele-1></td>
+        <td>HLA-B_allele-2</td><td><input type=text name=HLA-B_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-Bw_allele-1</td><td><input type=text name=HLA-Bw_allele-1></td>
+        <td>HLA-Bw_allele-2</td><td><input type=text name=HLA-Bw_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-Cw_allele-1</td><td><input type=text name=HLA-Cw_allele-1></td>
+        <td>HLA-Cw_allele-2</td><td><input type=text name=HLA-Cw_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-DRB1_allele-1</td><td><input type=text name=HLA-DRB1_allele-1></td>
+        <td>HLA-DRB1_allele-2</td><td><input type=text name=HLA-DRB1_allele-2></td>
+    </tr>
+        <tr><td>HLA-DRB3_allele-1</td><td><input type=text name=HLA-DRB3_allele-1></td>
+        <td>HLA-DRB3_allele-2</td><td><input type=text name=HLA-DRB3_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-DRB4_allele-1</td><td><input type=text name=HLA-DRB4_allele-1></td>
+        <td>HLA-DRB4_allele-2</td><td><input type=text name=HLA-DRB4_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-DRB5_allele-1</td><td><input type=text name=HLA-DRB5_allele-1></td>
+        <td>HLA-DRB5_allele-2</td><td><input type=text name=HLA-DRB5_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-DQA1_allele-1</td><td><input type=text name=HLA-DQA1_allele-1></td>
+        <td>HLA-DQA1_allele-2</td><td><input type=text name=HLA-DQA1_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-DQB1_allele-1</td><td><input type=text name=HLA-DQB1_allele-1></td>
+        <td>HLA-DQB1_allele-2</td><td><input type=text name=HLA-DQB1_allele-2></td>
+    </tr>
+</table>
+    <button class="btn btn-sm btn-info" type="submit" name=action value="save_new_patient">Save Patient</button>
+</form>
