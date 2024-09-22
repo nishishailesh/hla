@@ -62,6 +62,8 @@ def do_upload():
       if(len(i)==0):
         next_message=''
       median=median+[i]
+      
+  analyse_file_data(all_data)
   return template("import_SAB_plate_csv.html",file_data=all_data,msg=msg,median=median)
 
 @route('/get_patient_detail', method='POST')
@@ -70,8 +72,45 @@ def get_patient_detail():
   
 
 def analyse_file_data(file_data):
-  pass
-    
+  sn=''
+  batch=''
+  protocol_name=''
+  next_line_is=''
+  median_keys=[]
+  median_data_of_one_patient={}
+  for each_line in file_data:
+    if (len(each_line)==0):
+      next_line_is=''
+      logging.debug("#####empty line found")
+      logging.debug("#####Data section ends here")
+    elif(len(each_line)==2):
+      #logging.debug("each_line:{}".format(each_line))    
+      if(each_line[0]=='SN'):
+        logging.debug("####serial number of equipment is:{}".format(each_line[1]))
+        sn=each_line[1]
+      elif(each_line[0]=='Batch'):
+        logging.debug("####Batch ID is:{}".format(each_line[1]))
+        batch=each_line[1]
+      elif(each_line[0]=='ProtocolName'):
+        logging.debug("####Protocol Name is:{}".format(each_line[1]))
+        protocol_name=each_line[1]   
+      elif(each_line[0]=='DataType:' and each_line[1]=='Median'):
+        logging.debug("#####Median DataType is found")
+        next_line_is='median_keys'
+    elif (next_line_is=='median_keys'):
+      next_line_is='median_data'
+      logging.debug("next_line_is={}".format(next_line_is))
+      median_keys=each_line
+      logging.debug("median keys are:{}".format(median_keys))
+    elif (next_line_is=='median_data'):
+      #logging.debug("median data are:{}".format(each_line))
+      unique_string=sn+'|'+batch+'|'+protocol_name
+      median_data_of_one_patient=dict(zip(median_keys,each_line))
+      logging.debug("median data of one patient is: {}".format(median_data_of_one_patient))
+      
+
+
+
 def verify_user():
   if(request.forms.get("uname")!=None and request.forms.get("psw")!=None):
     uname=request.forms.get("uname")
