@@ -16,35 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `ABORh`
---
-
-DROP TABLE IF EXISTS `ABORh`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ABORh` (
-  `patient_id` varchar(50) NOT NULL,
-  `ABO` varchar(10) NOT NULL,
-  `Rh` varchar(1) NOT NULL,
-  PRIMARY KEY (`patient_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `HLA`
---
-
-DROP TABLE IF EXISTS `HLA`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `HLA` (
-  `patient_id` varchar(50) NOT NULL,
-  `HLA_Class` int(11) NOT NULL,
-  `HLA_Type` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `SAB`
 --
 
@@ -85,28 +56,29 @@ DROP TABLE IF EXISTS `patient`;
 CREATE TABLE `patient` (
   `patient_id` bigint(20) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `ABO` varchar(10) NOT NULL,
-  `Rh` int(10) NOT NULL,
-  `HLA-A_allele-1` varchar(10) NOT NULL,
-  `HLA-A_allele-2` varchar(10) NOT NULL,
-  `HLA-B_allele-1` varchar(10) NOT NULL,
-  `HLA-B_allele-2` varchar(10) NOT NULL,
-  `HLA-Bw_allele-1` varchar(10) NOT NULL,
-  `HLA-Bw_allele-2` varchar(10) NOT NULL,
-  `HLA-Cw_allele-1` varchar(10) NOT NULL,
-  `HLA-Cw_allele-2` varchar(10) NOT NULL,
-  `HLA-DRB1_allele-1` varchar(10) NOT NULL,
-  `HLA-DRB1_allele-2` varchar(10) NOT NULL,
-  `HLA-DRB3_allele-1` varchar(10) NOT NULL,
-  `HLA-DRB3_allele-2` varchar(10) NOT NULL,
-  `HLA-DRB4_allele-1` varchar(10) NOT NULL,
-  `HLA-DRB4_allele-2` varchar(10) NOT NULL,
-  `HLA-DRB5_allele-1` varchar(10) NOT NULL,
-  `HLA-DRB5_allele-2` varchar(10) NOT NULL,
-  `HLA-DQA1_allele-1` varchar(10) NOT NULL,
-  `HLA-DQA1_allele-2` varchar(10) NOT NULL,
-  `HLA-DQB1_allele-1` varchar(10) NOT NULL,
-  `HLA-DQB1_allele-2` varchar(10) NOT NULL,
+  `ABO` varchar(10) DEFAULT NULL,
+  `Rh` int(10) DEFAULT NULL,
+  `HLA-A_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-A_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-B_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-B_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-Bw_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-Bw_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-Cw_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-Cw_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DRB1_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DRB1_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DRB3_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DRB3_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DRB4_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DRB4_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DRB5_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DRB5_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DQA1_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DQA1_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DQB1_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DQB1_allele-2` varchar(10) DEFAULT NULL,
+  `SAB_unique_string` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`patient_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -157,4 +129,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-22 23:25:16
+-- Dump completed on 2024-09-24  9:00:57

@@ -29,8 +29,9 @@ long_line_column=72
 
 [files]
 current_page=0
-FILE_NAME_0=3734;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.py;0;2
-FILE_NAME_1=17328;None;0;EUTF-8;0;1;0;%2Froot%2F315_GB_data%2Fshailesh%2Fhla%20matching%2Fhla%20data%2Fcsv%2Frajendra.csv;0;2
+FILE_NAME_0=2405;Python;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Findex.py;0;2
+FILE_NAME_1=101;HTML;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Fsave_new_patient.html;0;2
+FILE_NAME_2=9;HTML;0;EUTF-8;0;1;0;%2Fusr%2Fshare%2Fnchs%2Fhla%2Fget_SAB_plate_csv.html;0;2
 
 [VTE]
 last_dir=/root

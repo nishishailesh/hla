@@ -69,7 +69,14 @@ def do_upload():
 @route('/get_patient_detail', method='POST')
 def get_patient_detail():
   return template("get_patient_detail.html")
-  
+
+@route('/save_new_patient', method='POST')
+def save_new_patient():
+  post_dict=dict(request.forms.items())
+  logging.debug(post_dict)
+  for key in post_dict.keys():
+    sql='insert into 
+  return template("save_new_patient.html",post_dict=post_dict)  
 
 def analyse_file_data(file_data):
   sn=''
@@ -78,6 +85,8 @@ def analyse_file_data(file_data):
   next_line_is=''
   median_keys=[]
   median_data_of_one_patient={}
+  m=mysql_lis()
+  con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)   
   for each_line in file_data:
     if (len(each_line)==0):
       next_line_is=''
@@ -106,10 +115,31 @@ def analyse_file_data(file_data):
       #logging.debug("median data are:{}".format(each_line))
       unique_string=sn+'|'+batch+'|'+protocol_name
       median_data_of_one_patient=dict(zip(median_keys,each_line))
+      patient_detail=median_data_of_one_patient['Sample'].split()
+      logging.debug("patient details are :{}".format(patient_detail))
+      if(len(patient_detail)!=3):
+        logging.debug("patient details are not having three parts:{}".format(patient_detail))
+        continue
+      patient_id=patient_detail[2]
       logging.debug("median data of one patient is: {}".format(median_data_of_one_patient))
-      
-
-
+      sql='insert into primary_SAB \
+              (patient_id,unique_string,antigen_id,mfi) values \
+              (%s,%s,%s,%s) \
+              on duplicate key update \
+              mfi=%s '
+              
+              #where patient_id=%s and unique_string=%s and antigen_id=%s'
+   
+      for each_value_key_pair in median_data_of_one_patient.keys():
+        
+        if(each_value_key_pair.isdigit()==True):
+          data_tpl=(patient_id,unique_string,each_value_key_pair,median_data_of_one_patient[each_value_key_pair],
+          median_data_of_one_patient[each_value_key_pair])
+          #,patient_id,unique_string,each_value_key_pair)
+          logging.debug("data to be inserted/updated{}".format(data_tpl))
+          cur=m.run_query(con,prepared_sql=sql,data_tpl=data_tpl)
+          m.close_cursor(cur)
+      m.close_link(con)          
 
 def verify_user():
   if(request.forms.get("uname")!=None and request.forms.get("psw")!=None):

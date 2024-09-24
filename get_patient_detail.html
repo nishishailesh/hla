@@ -1,4 +1,8 @@
 % include("bootstrap_links.html")
+<% 
+  from bottle import url
+  save_new_patient_url=url("/save_new_patient")
+%>
 <h5 class="text-info">Fill Patient Details</h5>
 
 <form method=post action=save_new_patient>
@@ -11,6 +15,7 @@
         <td>ABO</td>
         <td>
             <select name=ABO>
+                <option></option>
                 <option>A</option>
                 <option>B</option>
                 <option>AB</option>
@@ -20,6 +25,7 @@
         <td>Rh</td>
         <td>
             <select name=Rh>
+                <option></option>
                 <option>Positive</option>
                 <option>Negative</option>
             </select>
@@ -64,6 +70,6 @@
         <td>HLA-DQB1_allele-1</td><td><input type=text name=HLA-DQB1_allele-1></td>
         <td>HLA-DQB1_allele-2</td><td><input type=text name=HLA-DQB1_allele-2></td>
     </tr>
-</table>
-    <button class="btn btn-sm btn-info" type="submit" name=action value="save_new_patient">Save Patient</button>
+  </table>
+    <button class="btn btn-sm btn-info" type="submit" name=action value={{save_new_patient_url}}>Save Patient</button>
 </form>
