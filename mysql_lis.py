@@ -13,11 +13,15 @@ class mysql_lis(object):
       return con
 
   def run_query(self,con,prepared_sql,data_tpl):
-    cur=con.cursor()
-    cur.execute(prepared_sql,data_tpl)
-    con.commit()
-    msg="rows affected: {}".format(cur.rowcount)
-    logging.debug(msg)
+    try:
+      cur=con.cursor()
+      cur.execute(prepared_sql,data_tpl)
+      con.commit()
+      msg="rows affected: {}".format(cur.rowcount)
+      logging.debug(msg)
+    except Exception as ex:
+      logging.debug('{}'.format(ex))
+      return False
     return cur
 
   def get_single_row(self,cur):

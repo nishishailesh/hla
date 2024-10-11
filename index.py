@@ -74,9 +74,18 @@ def get_patient_detail():
 def save_new_patient():
   post_dict=dict(request.forms.items())
   logging.debug(post_dict)
-  for key in post_dict.keys():
-    sql='insert into 
-  return template("save_new_patient.html",post_dict=post_dict)  
+  post_dict.pop("action")
+  logging.debug(post_dict)
+  #{'patient_id': '1234', 'name': 'ok kjj', 'ABO': 'A', 'Rh': 'Positive', 'HLA-A_allele-1': '', 'HLA-A_allele-2': '', 'HLA-B_allele-1': '', 'HLA-B_allele-2': '', 'HLA-Bw_allele-1': '', 'HLA-Bw_allele-2': '', 'HLA-Cw_allele-1': '', 'HLA-Cw_allele-2': '', 'HLA-DRB1_allele-1': '', 'HLA-DRB1_allele-2': '', 'HLA-DRB3_allele-1': '', 'HLA-DRB3_allele-2': '', 'HLA-DRB4_allele-1': '', 'HLA-DRB4_allele-2': '', 'HLA-DRB5_allele-1': '', 'HLA-DRB5_allele-2': '', 'HLA-DQA1_allele-1': '', 'HLA-DQA1_allele-2': '', 'HLA-DQB1_allele-1': '', 'HLA-DQB1_allele-2': '', 'action': '/hla/save_new_patient'} 
+  keys_section='`'+'`,`'.join(post_dict.keys())+'`'
+  values_section='"'+'","'.join(post_dict.values())+'"'
+  sql='insert into patient ('+keys_section+') values ('+values_section+')'
+  logging.debug("insert sql:{}".format(sql))
+  m=mysql_lis()
+  con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)   
+  cur=m.run_query(con,prepared_sql=sql,data_tpl={})
+  m.close_link(con)
+  return template("save_new_patient.html",post_dict=post_dict,sql_feedback='')  
 
 def analyse_file_data(file_data):
   sn=''
@@ -137,9 +146,13 @@ def analyse_file_data(file_data):
           median_data_of_one_patient[each_value_key_pair])
           #,patient_id,unique_string,each_value_key_pair)
           logging.debug("data to be inserted/updated{}".format(data_tpl))
-          cur=m.run_query(con,prepared_sql=sql,data_tpl=data_tpl)
-          m.close_cursor(cur)
-      m.close_link(con)          
+          try:
+            cur=m.run_query(con,prepared_sql=sql,data_tpl=data_tpl)
+            m.close_cursor(cur)
+          except Exception as ex:
+            logging.debug('Error:::::{}'.format(ex))
+            return False      
+  m.close_link(con)          
 
 def verify_user():
   if(request.forms.get("uname")!=None and request.forms.get("psw")!=None):

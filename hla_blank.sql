@@ -57,7 +57,7 @@ CREATE TABLE `patient` (
   `patient_id` bigint(20) NOT NULL,
   `name` varchar(100) NOT NULL,
   `ABO` varchar(10) DEFAULT NULL,
-  `Rh` int(10) DEFAULT NULL,
+  `Rh` varchar(10) DEFAULT NULL,
   `HLA-A_allele-1` varchar(10) DEFAULT NULL,
   `HLA-A_allele-2` varchar(10) DEFAULT NULL,
   `HLA-B_allele-1` varchar(10) DEFAULT NULL,
@@ -129,4 +129,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-24  9:00:57
+-- Dump completed on 2024-10-11 10:33:25
