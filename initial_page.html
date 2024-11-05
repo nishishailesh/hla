@@ -3,6 +3,8 @@
   view_antigen_url=url("/view_antigen")
   get_SAB_plate_csv_url=url("/get_SAB_plate_csv")
   get_patient_detail_url=url("/get_patient_detail")
+  view_patient_detail_url=url("/view_patient_detail")
+  search_SAB_database_url=url("/search_SAB_database")
   #print("######:"+u)
 %>
 
@@ -19,7 +21,16 @@
 
 
 <form method=post>
-  <button type=submit formaction={{get_patient_detail_url}} formtarget=_blank name=action value=get_SAB_plate_csv>Insert Patient Details (including HLA and ABORh)</button>
+  <button type=submit formaction={{get_patient_detail_url}} formtarget=_blank name=action value=get_SAB_plate_csv>Insert ABO,Rh, HLA</button>
+</form>
+<form method=post>
+  <input type=number name=patient_id placeholder="Patient ID">
+  <button type=submit formaction={{view_patient_detail_url}} formtarget=_blank name=action value=view_patient_detail>View ABO,Rh, HLA</button>
+</form>
+
+<form method=post>
+  <input type=number name=patient_id placeholder="Patient ID">
+  <button type=submit formaction={{search_SAB_database_url}} formtarget=_blank name=action value=search_SAB_database>Search SAB database</button>
 </form>
 
 <br>============To do==================<br>

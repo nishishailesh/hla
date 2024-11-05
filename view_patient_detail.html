@@ -1,0 +1,10 @@
+% include("bootstrap_links.html")
+<h4 class="text-info">patient_id provided is: {{patient_id}}</h4>
+<h4 class="text-success">message:{{last_message}}</h4>
+<h4 class="text-success">{{data_dict}}</h4>
+<table class="table table-sm table-striped">
+<tr><th>Field</th><th>Value</th></tr>
+%for fld in data_dict.keys():
+  <tr><td>{{fld}}</td><td>{{data_dict[fld]}}</td></tr>
+%end
+</table>

@@ -3,7 +3,7 @@
 from bottle import template, request, post, route, redirect
 from datetime import datetime
 from mysql_lis import mysql_lis
-import sys, logging, bcrypt, csv
+import sys, logging, bcrypt, csv, pprint
 from io import StringIO
 
 #For mysql password
@@ -70,6 +70,35 @@ def do_upload():
 def get_patient_detail():
   return template("get_patient_detail.html")
 
+@route('/view_patient_detail', method='POST')
+def view_patient_detail():
+  m=mysql_lis()
+  con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)
+  patient_id=request.forms.get("patient_id")
+  sql='select * from donor where patient_id=%s'
+  logging.debug("sql:{}".format(sql))
+  data_tpl=(patient_id,)
+  logging.debug("data_tpl:{}".format(data_tpl))
+  cur=m.run_query(con,prepared_sql=sql,data_tpl=data_tpl)
+  logging.debug("last_message{}".format(m.last_message))
+  patient_data=m.get_single_row(cur)
+  logging.debug("patient_data:{}".format(patient_data))
+  
+  num_fields = len(cur.description)
+  field_names = [i[0] for i in cur.description]  
+  logging.debug("field_names:{}".format(field_names))
+  data_dict=dict(zip(field_names,patient_data))
+  logging.debug("data_dict:{}".format(data_dict))
+  m.close_link(con)
+  html_data={
+  'patient_id':request.forms.get("patient_id"),
+  'last_message':m.last_message,
+  'patient_data':patient_data,
+  'data_dict':data_dict
+  }
+  print("\n".join("{}\t{}".format(k, v) for k, v in dictionary.items()))
+  return template("view_patient_detail.html",html_data)
+  
 @route('/save_new_patient', method='POST')
 def save_new_patient():
   post_dict=dict(request.forms.items())
@@ -79,14 +108,46 @@ def save_new_patient():
   #{'patient_id': '1234', 'name': 'ok kjj', 'ABO': 'A', 'Rh': 'Positive', 'HLA-A_allele-1': '', 'HLA-A_allele-2': '', 'HLA-B_allele-1': '', 'HLA-B_allele-2': '', 'HLA-Bw_allele-1': '', 'HLA-Bw_allele-2': '', 'HLA-Cw_allele-1': '', 'HLA-Cw_allele-2': '', 'HLA-DRB1_allele-1': '', 'HLA-DRB1_allele-2': '', 'HLA-DRB3_allele-1': '', 'HLA-DRB3_allele-2': '', 'HLA-DRB4_allele-1': '', 'HLA-DRB4_allele-2': '', 'HLA-DRB5_allele-1': '', 'HLA-DRB5_allele-2': '', 'HLA-DQA1_allele-1': '', 'HLA-DQA1_allele-2': '', 'HLA-DQB1_allele-1': '', 'HLA-DQB1_allele-2': '', 'action': '/hla/save_new_patient'} 
   keys_section='`'+'`,`'.join(post_dict.keys())+'`'
   values_section='"'+'","'.join(post_dict.values())+'"'
-  sql='insert into patient ('+keys_section+') values ('+values_section+')'
+  sql='insert into  donor ('+keys_section+') values ('+values_section+')'
   logging.debug("insert sql:{}".format(sql))
   m=mysql_lis()
   con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)   
-  cur=m.run_query(con,prepared_sql=sql,data_tpl={})
+  cur=m.run_query(con,prepared_sql=sql,data_tpl=())
   m.close_link(con)
-  return template("save_new_patient.html",post_dict=post_dict,sql_feedback='')  
+  return template("save_new_patient.html",post_dict=post_dict,last_message=m.last_message)  
 
+def select_query_get_first_row(sql,data_tpl):
+  logging.debug("complate_a_query(sql,data_tpl) SQL={}".format(sql))
+  logging.debug("complate_a_query(sql,data_tpl) data_tpl={}".format(data_tpl))
+  m=mysql_lis()
+  con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)   
+  cur=m.run_query(con,prepared_sql=sql,data_tpl=data_tpl)
+  patient_data=m.get_single_row(cur)
+  field_names = [i[0] for i in cur.description]
+  logging.debug("fields={}".format(field_names))
+  logging.debug("data={}".format(patient_data))
+  data_dict=dict(zip(field_names,patient_data))
+  m.close_link(con)
+  return data_dict
+  
+def select_query_get_all_rows(sql,data_tpl):
+  logging.debug("complat((67185,), (112557,), (344413,), (383627,), (432571,), (437325,), (437835,), (440695,), (444619,), (444889,), (456979,), (457635,), (460609,), (462863,), (469921,), (473481,), (474547,), (475393,), (483313,), (492087,), (495309,), (497983,), (498735,), (498919,), (502249,), (502317,), (517601,))e_a_query(sql,data_tpl) SQL={}".format(sql))
+  logging.debug("complate_a_query(sql,data_tpl) data_tpl={}".format(data_tpl))
+  m=mysql_lis()
+  con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)   
+  cur=m.run_query(con,prepared_sql=sql,data_tpl=data_tpl)
+  patient_data=m.get_all_rows(cur)
+  logging.debug("data={}".format(patient_data))
+  m.close_link(con)
+  return patient_data
+   
+@route('/search_SAB_database', method='POST')
+def search_SAB_database():
+  pid=request.forms.get("patient_id")
+  donor_data=select_query_get_first_row(sql='select * from donor where patient_id=%s',data_tpl=(pid,))
+  recipent_data=select_query_get_all_rows(sql='select patient_id from recipient where ABO=%s and Rh=%s',data_tpl=(donor_data['ABO'],donor_data['Rh']))
+  return template("search_SAB_database.html", pid=request.forms.get("patient_id"),donor_data=donor_data,recipent_data=recipent_data)
+  
 def analyse_file_data(file_data):
   sn=''
   batch=''
@@ -131,7 +192,7 @@ def analyse_file_data(file_data):
         continue
       patient_id=patient_detail[2]
       logging.debug("median data of one patient is: {}".format(median_data_of_one_patient))
-      sql='insert into primary_SAB \
+      sql='insert into recipent_antibodies \
               (patient_id,unique_string,antigen_id,mfi) values \
               (%s,%s,%s,%s) \
               on duplicate key update \

@@ -16,22 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `SAB`
---
-
-DROP TABLE IF EXISTS `SAB`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SAB` (
-  `patient_id` varchar(50) NOT NULL,
-  `unique_string` varchar(100) NOT NULL,
-  `antigen_id` int(11) NOT NULL,
-  `mfi` int(11) NOT NULL,
-  PRIMARY KEY (`patient_id`,`antigen_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `antigen`
 --
 
@@ -47,13 +31,13 @@ CREATE TABLE `antigen` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `patient`
+-- Table structure for table `donor`
 --
 
-DROP TABLE IF EXISTS `patient`;
+DROP TABLE IF EXISTS `donor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `patient` (
+CREATE TABLE `donor` (
   `patient_id` bigint(20) NOT NULL,
   `name` varchar(100) NOT NULL,
   `ABO` varchar(10) DEFAULT NULL,
@@ -84,13 +68,50 @@ CREATE TABLE `patient` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `primary_SAB`
+-- Table structure for table `recipient`
 --
 
-DROP TABLE IF EXISTS `primary_SAB`;
+DROP TABLE IF EXISTS `recipient`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `primary_SAB` (
+CREATE TABLE `recipient` (
+  `patient_id` bigint(20) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `ABO` varchar(10) DEFAULT NULL,
+  `Rh` varchar(10) DEFAULT NULL,
+  `HLA-A_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-A_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-B_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-B_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-Bw_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-Bw_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-Cw_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-Cw_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DRB1_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DRB1_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DRB3_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DRB3_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DRB4_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DRB4_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DRB5_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DRB5_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DQA1_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DQA1_allele-2` varchar(10) DEFAULT NULL,
+  `HLA-DQB1_allele-1` varchar(10) DEFAULT NULL,
+  `HLA-DQB1_allele-2` varchar(10) DEFAULT NULL,
+  `SAB_unique_string` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`patient_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `recipient_antibodies`
+--
+
+DROP TABLE IF EXISTS `recipient_antibodies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recipient_antibodies` (
   `patient_id` varchar(50) NOT NULL,
   `unique_string` varchar(100) NOT NULL,
   `antigen_id` int(11) NOT NULL,
@@ -129,4 +150,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-11 10:33:25
+-- Dump completed on 2024-11-05 12:03:45

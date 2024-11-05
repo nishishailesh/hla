@@ -2,6 +2,8 @@
 import MySQLdb,logging
 
 class mysql_lis(object):
+  last_message=''
+    
   def get_link(self,my_host,my_user,my_pass,my_db):
     con=MySQLdb.connect(my_host,my_user,my_pass,my_db)
     logging.debug(con)
@@ -17,10 +19,12 @@ class mysql_lis(object):
       cur=con.cursor()
       cur.execute(prepared_sql,data_tpl)
       con.commit()
-      msg="rows affected: {}".format(cur.rowcount)
+      msg="rows found/altered: {}".format(cur.rowcount)
       logging.debug(msg)
+      self.last_message=msg
     except Exception as ex:
       logging.debug('{}'.format(ex))
+      self.last_message='{}'.format(ex)
       return False
     return cur
 
