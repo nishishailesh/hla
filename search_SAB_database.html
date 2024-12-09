@@ -1,3 +1,88 @@
-{{pid}}
-{{donor_data}}
-{{recipent_data}}
+% include("bootstrap_links.html")
+<% 
+  from bottle import url
+  view_recipient_detail_url=url("/view_recipient_detail")
+%>
+<h4>Click blue buttons to view/hide information</h4>
+<button type=button class="btn btn-block btn-primary" data-toggle="collapse" data-target="#donor_information"  >Donor Information</button>
+
+<div id="donor_information" class="collapse">
+  Donor ID:{{pid}}<br>
+  <table class="table table-sm table-striped">
+  %for one_raw in donor_data:
+    <tr><td>{{one_raw}}</td><td>{{donor_data[one_raw]}}</td></tr>
+  %end
+  </table>
+</div>
+
+<button type=button class="btn btn-block btn-primary" data-toggle="collapse" data-target="#donor_hla"  >Donor HLA Profile</button>
+<div id="donor_hla" class="collapse">
+{{donor_data_string}}
+</div>
+
+<button type=button class="btn btn-block btn-primary" data-toggle="collapse" data-target="#abo_rh"  >Matching ABO/Rh recipients</button>
+<div id="abo_rh" class="collapse">
+<table class="table table-sm table-striped">
+  <tr><th>PID</th><th>Name</th><th>ABO</th><th>Rh</th></tr>
+%for one_raw in recipient_data:
+  <tr><td>{{one_raw[0]}}</td><td>{{one_raw[3]}}</td><td>{{one_raw[1]}}</td><td>{{one_raw[2]}}</td></tr>
+%end
+</table>
+</div>
+
+<!--
+<table class="table table-sm table-striped">
+%for one_raw in antibody_data:
+  <tr>
+    %for one_cell in one_raw:
+    <td>{{one_cell}}</td>
+    %end
+  </tr>
+%end
+</table>
+-->
+<!--{{donor_data_string}}-->
+<button type=button class="btn btn-block btn-primary"
+ data-toggle="collapse" data-target="#mfi"  >ABO + Rh matched patient's Single Antigen MFI data</button>
+<div id="mfi" class="collapse">
+
+  %for one_pid in grand_data:
+
+  %ls=[item for item in recipient_data if item[0]==one_pid]
+
+    <table class="table table-sm table-striped">
+        <tr><th class="bg-secondary text-center" colspan="4">
+          <form method=post>
+            % include("pass_on.html")
+            <button type=submit
+                    class="btn btn-sm btn-info"
+                    formaction={{view_recipient_detail_url}} 
+                    formtarget=_blank 
+                    name=patient_id 
+                    value={{one_pid}}>Patient ID: {{one_pid}} Blood Group: {{ls[0][1]}}&nbsp;{{ls[0][2]}}&nbsp; Name: {{ls[0][3]}}
+            </button>
+            </form>
+          </th></tr>
+        
+        %for one_patient_data in grand_data[one_pid]:      
+
+          <%
+          cl="text-success"
+          if  one_patient_data[3]>500:
+            cl="text-danger"
+          end
+          
+
+          
+          %>
+
+          <tr>
+              <td class="{{cl}}">{{one_patient_data[0]}}</td>
+              <td  class="{{cl}}">{{one_patient_data[1]}}</td>
+              <td class="{{cl}}">{{one_patient_data[2]}}</td>
+              <td class={{cl}}  >{{one_patient_data[3]}}</td>
+          </tr>
+        %end
+    </table>
+  %end
+</div>

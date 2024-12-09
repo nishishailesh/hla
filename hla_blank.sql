@@ -62,7 +62,6 @@ CREATE TABLE `donor` (
   `HLA-DQA1_allele-2` varchar(10) DEFAULT NULL,
   `HLA-DQB1_allele-1` varchar(10) DEFAULT NULL,
   `HLA-DQB1_allele-2` varchar(10) DEFAULT NULL,
-  `SAB_unique_string` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`patient_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -99,7 +98,6 @@ CREATE TABLE `recipient` (
   `HLA-DQA1_allele-2` varchar(10) DEFAULT NULL,
   `HLA-DQB1_allele-1` varchar(10) DEFAULT NULL,
   `HLA-DQB1_allele-2` varchar(10) DEFAULT NULL,
-  `SAB_unique_string` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`patient_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -116,6 +114,8 @@ CREATE TABLE `recipient_antibodies` (
   `unique_string` varchar(100) NOT NULL,
   `antigen_id` int(11) NOT NULL,
   `mfi` int(11) NOT NULL,
+  `HLA_Type` varchar(100) NOT NULL,
+  `HLA_Serology` varchar(100) NOT NULL,
   PRIMARY KEY (`patient_id`,`unique_string`,`antigen_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -150,4 +150,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-05 12:03:45
+-- Dump completed on 2024-12-09 16:01:24

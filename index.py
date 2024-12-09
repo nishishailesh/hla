@@ -4,6 +4,7 @@ from bottle import template, request, post, route, redirect
 from datetime import datetime
 from mysql_lis import mysql_lis
 import sys, logging, bcrypt, csv, pprint
+from functools import wraps
 from io import StringIO
 
 #For mysql password
@@ -13,36 +14,101 @@ import astm_var_hla as astm_var
 ##############################################################
 logging.basicConfig(filename="/var/log/hla.log",level=logging.DEBUG)  
 
+ 
+ 
+
+def verify_user():
+  if(request.forms.get("uname")!=None and request.forms.get("psw")!=None):
+    uname=request.forms.get("uname")
+    psw=request.forms.get("psw")
+    logging.debug('username and password are provided')
+    m=mysql_lis()
+    con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)
+    cur=m.run_query(con,prepared_sql='select * from user where user=%s',data_tpl=(uname,))
+    user_info=m.get_single_row(cur)
+    if(user_info==None):
+      logging.debug('user {} not found'.format(uname))
+      m.close_cursor(cur)
+      m.close_link(con)
+      return False
+    m.close_cursor(cur)
+    m.close_link(con)
+
+    '''
+    Python: bcrypt.hashpw(b'mypassword',bcrypt.gensalt(rounds= 4,prefix = b'2b')
+    PHP:    password_hash('mypassword',PASSWORD_BCRYPT);
+
+    Python:bcrypt.checkpw(b'text',b'bcrypted password')
+    PHP: password_verify('text,'bcrypted password')
+    '''
+    #try is required to cache NoneType exception when supplied hash is not bcrypt
+    try:
+      if(bcrypt.checkpw(psw.encode("UTF-8"),user_info[2].encode("UTF-8"))==True):
+        logging.debug('user {}: password verification successful'.format(uname))
+        return True
+      else:
+        return False
+    except Exception as ex:
+      logging.debug('{}'.format(ex))
+      return False
+  else:
+    logging.debug("else reached")
+    return False
+    
+def decorate_verify_user(fun):
+  def nothing():
+    logging.debug("no username password available") 
+    return template("failed_login.html",post_data="No post_data")
+  @wraps(fun)   #not essential
+  def do_it():
+    if(verify_user()==True):
+      logging.debug("#fun() reached...")
+      return fun()  #return essential to return template
+    else:
+      return nothing() #return essential to return template
+  logging.debug("function name of do_it is {}".format(do_it.__name__))
+  return do_it
+    
 @route('/start', method='POST')
 def start():
     post_data=request.body.read()
+    uname=request.forms.get("uname")
+    psw=request.forms.get("psw")
     if(verify_user()==True):
-      return template("initial_page.html",post_data=post_data)
+      return template("initial_page.html",post_data=post_data,uname=uname,psw=psw)
     else:
-      return template("failed_login.html",post_data=post_data)
+      return template("failed_login.html",post_data=post_data,uname=uname,psw=psw)
     
 @route('/')
 def index():
     return template("index.html")
 
 @route('/view_antigen', method='POST')
+@decorate_verify_user
 def view_antigen():
+  logging.debug('view_antigen() entered...')
   m=mysql_lis()
   con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)
   cur=m.run_query(con,prepared_sql='select * from antigen',data_tpl=())
   all_data=m.get_all_rows(cur)
+  logging.debug("antigen data:{}".format(all_data))
   if(all_data==None):
     logging.debug('antigen data not found')
+    m.close_cursor(cur)
+    m.close_link(con)
     return False
   m.close_cursor(cur)
   m.close_link(con)  
+  logging.debug('view_antigen.html entering...')
   return template("view_antigen.html",all_data=all_data)
 
 @route('/get_SAB_plate_csv', method='POST')
+@decorate_verify_user
 def get_SAB_plate_csv():
   return template("get_SAB_plate_csv.html")
 
 @route('/import_SAB_plate_csv', method='POST')
+@decorate_verify_user
 def do_upload():
   upload= request.files.get('SAB_csv')
   line_data=upload.file.read()
@@ -67,10 +133,14 @@ def do_upload():
   return template("import_SAB_plate_csv.html",file_data=all_data,msg=msg,median=median)
 
 @route('/get_patient_detail', method='POST')
+@decorate_verify_user
 def get_patient_detail():
-  return template("get_patient_detail.html")
+    uname=request.forms.get("uname")
+    psw=request.forms.get("psw")
+    return template("get_patient_detail.html",uname=uname,psw=psw)
 
 @route('/view_patient_detail', method='POST')
+@decorate_verify_user
 def view_patient_detail():
   m=mysql_lis()
   con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)
@@ -96,14 +166,49 @@ def view_patient_detail():
   'patient_data':patient_data,
   'data_dict':data_dict
   }
-  print("\n".join("{}\t{}".format(k, v) for k, v in dictionary.items()))
+  print(data_dict)
   return template("view_patient_detail.html",html_data)
   
+@route('/view_recipient_detail', method='POST')
+@decorate_verify_user
+def view_recipient_detail():
+  m=mysql_lis()
+  con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)
+  patient_id=request.forms.get("patient_id")
+  sql='select * from recipient where patient_id=%s'
+  logging.debug("sql:{}".format(sql))
+  data_tpl=(patient_id,)
+  logging.debug("data_tpl:{}".format(data_tpl))
+  cur=m.run_query(con,prepared_sql=sql,data_tpl=data_tpl)
+  logging.debug("last_message{}".format(m.last_message))
+  patient_data=m.get_single_row(cur)
+  logging.debug("patient_data:{}".format(patient_data))
+  
+  num_fields = len(cur.description)
+  field_names = [i[0] for i in cur.description]  
+  logging.debug("field_names:{}".format(field_names))
+  data_dict=dict(zip(field_names,patient_data))
+  logging.debug("data_dict:{}".format(data_dict))
+  m.close_link(con)
+  html_data={
+  'patient_id':request.forms.get("patient_id"),
+  'last_message':m.last_message,
+  'patient_data':patient_data,
+  'data_dict':data_dict
+  }
+  print(data_dict)
+  return template("view_patient_detail.html",html_data)
+  
+
 @route('/save_new_patient', method='POST')
+@decorate_verify_user
 def save_new_patient():
   post_dict=dict(request.forms.items())
   logging.debug(post_dict)
   post_dict.pop("action")
+  post_dict.pop("uname")
+  post_dict.pop("psw")
+
   logging.debug(post_dict)
   #{'patient_id': '1234', 'name': 'ok kjj', 'ABO': 'A', 'Rh': 'Positive', 'HLA-A_allele-1': '', 'HLA-A_allele-2': '', 'HLA-B_allele-1': '', 'HLA-B_allele-2': '', 'HLA-Bw_allele-1': '', 'HLA-Bw_allele-2': '', 'HLA-Cw_allele-1': '', 'HLA-Cw_allele-2': '', 'HLA-DRB1_allele-1': '', 'HLA-DRB1_allele-2': '', 'HLA-DRB3_allele-1': '', 'HLA-DRB3_allele-2': '', 'HLA-DRB4_allele-1': '', 'HLA-DRB4_allele-2': '', 'HLA-DRB5_allele-1': '', 'HLA-DRB5_allele-2': '', 'HLA-DQA1_allele-1': '', 'HLA-DQA1_allele-2': '', 'HLA-DQB1_allele-1': '', 'HLA-DQB1_allele-2': '', 'action': '/hla/save_new_patient'} 
   keys_section='`'+'`,`'.join(post_dict.keys())+'`'
@@ -141,13 +246,7 @@ def select_query_get_all_rows(sql,data_tpl):
   m.close_link(con)
   return patient_data
    
-@route('/search_SAB_database', method='POST')
-def search_SAB_database():
-  pid=request.forms.get("patient_id")
-  donor_data=select_query_get_first_row(sql='select * from donor where patient_id=%s',data_tpl=(pid,))
-  recipent_data=select_query_get_all_rows(sql='select patient_id from recipient where ABO=%s and Rh=%s',data_tpl=(donor_data['ABO'],donor_data['Rh']))
-  return template("search_SAB_database.html", pid=request.forms.get("patient_id"),donor_data=donor_data,recipent_data=recipent_data)
-  
+
 def analyse_file_data(file_data):
   sn=''
   batch=''
@@ -215,34 +314,53 @@ def analyse_file_data(file_data):
             return False      
   m.close_link(con)          
 
-def verify_user():
-  if(request.forms.get("uname")!=None and request.forms.get("psw")!=None):
-    uname=request.forms.get("uname")
-    psw=request.forms.get("psw")
-    logging.debug('username and password are provided')
-    m=mysql_lis()
-    con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)
-    cur=m.run_query(con,prepared_sql='select * from user where user=%s',data_tpl=(uname,))
-    user_info=m.get_single_row(cur)
-    if(user_info==None):
-      logging.debug('user {} not found'.format(uname))
-      return False
-    m.close_cursor(cur)
-    m.close_link(con)
 
-    '''
-    Python: bcrypt.hashpw(b'mypassword',bcrypt.gensalt(rounds= 4,prefix = b'2b')
-    PHP:    password_hash('mypassword',PASSWORD_BCRYPT);
+@route('/search_SAB_database', method='POST')
+@decorate_verify_user
+def search_SAB_database():
+  uname=request.forms.get("uname")
+  psw=request.forms.get("psw")  
+  pid=request.forms.get("patient_id")
+  donor_data=select_query_get_first_row(
+      sql='select * from donor where patient_id=%s',data_tpl=(pid,))
 
-    Python:bcrypt.checkpw(b'text',b'bcrypted password')
-    PHP: password_verify('text,'bcrypted password')
-    '''
-    #try is required to cache NoneType exception when supplied hash is not bcrypt
-    try:
-      if(bcrypt.checkpw(psw.encode("UTF-8"),user_info[2].encode("UTF-8"))==True):
-        return True
-      else:
-        return False
-    except Exception as ex:
-      logging.debug('{}'.format(ex))
-      return False
+  def make_string(donor_data):
+    donor_data_string=()
+    for fld in donor_data.keys():
+      if(fld[:3]=='HLA'):
+        if(len(donor_data[fld])>0):
+          d1=fld.split("-")[1].split("_")[0]+"*"+donor_data[fld]
+          donor_data_string=donor_data_string+(d1,)
+    return donor_data_string    
+    
+  donor_data_tuple=make_string(donor_data)
+  
+  recipient_data=select_query_get_all_rows(
+          sql='select patient_id,ABO,Rh,name from recipient where \
+          (ABO=%s or ABO="AB") and (Rh=%s or Rh="Positive") ',data_tpl=(donor_data['ABO'],donor_data['Rh']))
+  
+  logging.debug("first data:{}".format(recipient_data[0][0]))
+  antibody_data=select_query_get_all_rows(
+                  sql="select * from recipient_antibodies \
+                  where patient_id=%s",data_tpl=(recipient_data[0][0],)
+                  )
+  
+  grand_data={}             
+  for each_recipient_data in recipient_data:
+    one_pt_data=()
+    for each_donor_data in donor_data_tuple:
+      one_filtered_rab=select_query_get_all_rows(
+                    sql="select patient_id,antigen_id,HLA_Type,mfi from recipient_antibodies \
+                    where patient_id=%s and locate(%s,HLA_Type)>0",
+                    data_tpl=(each_recipient_data[0],each_donor_data))
+      logging.debug("{}:{}".format(each_donor_data,one_filtered_rab))
+      one_pt_data=one_pt_data+one_filtered_rab
+    grand_data[each_recipient_data[0]]=one_pt_data                         
+  return template("search_SAB_database.html", 
+      pid=request.forms.get("patient_id"),
+      donor_data=donor_data,recipient_data=recipient_data,
+      antibody_data=antibody_data,
+      donor_data_string=donor_data_tuple,
+      grand_data=grand_data,uname=uname,psw=psw)
+
+  

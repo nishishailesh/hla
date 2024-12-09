@@ -1,0 +1,91 @@
+<% 
+  from bottle import url
+  view_antigen_url=url("/view_antigen")
+  get_SAB_plate_csv_url=url("/get_SAB_plate_csv")
+  get_patient_detail_url=url("/get_patient_detail")
+  view_patient_detail_url=url("/view_patient_detail")
+  search_SAB_database_url=url("/search_SAB_database")
+  #print("######:"+u)
+%>
+
+<form method=post>
+  <button type=submit formaction={{view_antigen_url}} formtarget=_blank name=action value=view_antigen>View Antigen database</button>
+  <button type=submit name=action value=edit_antigen>Edit Antigen database</button>
+  <button type=submit name=action value=new_antigen>Add new Antigen to database</button>
+</form>
+
+<form method=post>
+  <button type=submit formaction={{get_SAB_plate_csv_url}} formtarget=_blank name=action value=get_SAB_plate_csv>Get SAB Plate csv</button>
+  <button type=submit name=action value=edit_antigen>Edit Patient SAB</button>
+</form>
+
+
+<form method=post>
+  <button type=submit formaction={{get_patient_detail_url}} formtarget=_blank name=action value=get_SAB_plate_csv>Insert ABO,Rh, HLA</button>
+</form>
+<form method=post>
+  <input type=number name=patient_id placeholder="Patient ID">
+  <button type=submit formaction={{view_patient_detail_url}} formtarget=_blank name=action value=view_patient_detail>View ABO,Rh, HLA</button>
+</form>
+
+<form method=post>
+  <input type=number name=patient_id placeholder="Donor ID">
+  <button type=submit formaction={{search_SAB_database_url}} formtarget=_blank name=action value=search_SAB_database>Search Recipients</button>
+</form>
+
+<br>============To do==================<br>
+Initial Page<br>
+<!-- {{post_data}}<br> -->
+To Do:<br>
+<h5>Potential Recipient</h5>
+import single antigen beads assay plate CSV of potential recipient<br>
+search single antigen beads assay of a potential recipient<br>
+edit single antigen beads assay of a potential recipient<br>
+delete single antigen beads assay of a potential recipient<br>
+<br>
+insert ABO-Rh profile of a potential recipient<br>
+search ABO-Rh  profile of a potential recipient<br>
+edit ABO-Rh  profile of a potential recipient<br>
+delete ABO-Rh  profile of a potential recipient<br>
+<br>
+<br>
+insert HLA profile of a potential recipient<br>
+search HLA profile of a potential recipient<br>
+edit HLA profile of a potential recipient<br>
+delete HLA profile of a potential recipient<br>
+<br>
+<br>
+insert active/inactive status of a potential recipient<br>
+search active/inactive status of a potential recipient<br>
+edit active/inactive status of a potential recipient<br>
+delete active/inactive status of a potential recipient<br>
+<br>
+View ABO+HLA+SAB+status of a potential recipient
+
+<h5>Potential Donor</h5>
+
+<br>
+insert ABO-Rh profile of a potential donor<br>
+search ABO-Rh  profile of a potential donor<br>
+edit ABO-Rh  profile of a potential donor<br>
+delete ABO-Rh  profile of a potential donor<br>
+<br>
+<br>
+insert HLA profile of a potential donor<br>
+search HLA profile of a potential donor<br>
+edit HLA profile of a potential donor<br>
+delete HLA profile of a potential donor<br>
+<br>
+
+View ABO+HLA of a potential donor
+
+<h5>Matching</h5>
+
+<br>
+Match HLA profile of a potential donor with active potential recipients<br>
+Step-1: select potential donor<br>
+Step-2: Remove potential recipients with mismatched ABORh with potential donor<br>
+Step-3: For each potential recipients find antibody-MFI against each HLA of potential donor<br>
+Step-3: For each potential recipients find matching HLA with potential donor<br>
+Step-4: Sort Step-3 results with a) high MFI (total ??)on top b) low matching on top
+<br> 
