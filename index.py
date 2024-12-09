@@ -153,6 +153,11 @@ def view_patient_detail():
   logging.debug("last_message{}".format(m.last_message))
   patient_data=m.get_single_row(cur)
   logging.debug("patient_data:{}".format(patient_data))
+
+
+  if(patient_data==None):
+    return "<h3>No donor data found for such donor id</h3>"
+    logging.debug("No donor data found for such donor id")
   
   num_fields = len(cur.description)
   field_names = [i[0] for i in cur.description]  
@@ -183,6 +188,12 @@ def view_recipient_detail():
   logging.debug("last_message{}".format(m.last_message))
   patient_data=m.get_single_row(cur)
   logging.debug("patient_data:{}".format(patient_data))
+
+
+  if(patient_data==None):
+    return "<h3>No recipient data found for such patient id</h3>"
+    logging.debug("No recipient data found for such patient id")
+
   
   num_fields = len(cur.description)
   field_names = [i[0] for i in cur.description]  
@@ -231,7 +242,10 @@ def select_query_get_first_row(sql,data_tpl):
   field_names = [i[0] for i in cur.description]
   logging.debug("fields={}".format(field_names))
   logging.debug("data={}".format(patient_data))
+  if(patient_data==None):
+    return None
   data_dict=dict(zip(field_names,patient_data))
+  logging.debug("data_dict={}".format(data_dict))
   m.close_link(con)
   return data_dict
   
@@ -323,6 +337,11 @@ def search_SAB_database():
   pid=request.forms.get("patient_id")
   donor_data=select_query_get_first_row(
       sql='select * from donor where patient_id=%s',data_tpl=(pid,))
+
+  if(donor_data==None):
+    return "<h3>No donor data found for such patient id</h3>"
+    logging.debug("No donor data found for such patient id")
+
 
   def make_string(donor_data):
     donor_data_string=()
