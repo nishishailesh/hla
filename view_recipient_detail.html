@@ -1,0 +1,43 @@
+% include("bootstrap_links.html")
+<!--
+<h4 class="text-info">patient_id provided is: {{patient_id}}</h4>
+<h4 class="text-success">message:{{last_message}}</h4>
+<h4 class="text-success">{{data_dict}}</h4>-->
+
+<table class="table table-sm table-striped">
+<tr><th colspan=2 class="bg-warning">Recipient HLA details</tr>
+% if data_dict!=None:
+%   for fld in data_dict.keys():
+      <tr><td>{{fld}}</td><td>{{data_dict[fld]}}</td></tr>
+%   end
+% end
+
+% if data_dict==None:
+      <tr><td colspan=2>No HLA data found</td></tr>
+% end
+</table>
+
+<table class="table table-sm table-striped">
+<tr><th colspan=6 class="bg-warning">Recipient HLA single antigen details</tr>
+<tr><th>Patient ID</th><th>Batch ID</th><th>Antigen ID</th><th>MFI</th><th>HLA_Type</th><th>HLA Serology</th></tr>
+  % if patient_antibodies_data!=None:
+    %for one_raw in patient_antibodies_data:
+          <%
+          cl="text-success"
+          if  one_raw[3]>500:
+            cl="text-danger"
+          end
+          %>
+          
+      <tr>
+        %for one_cell in one_raw:
+        <td class={{cl}}>{{one_cell}}</td>
+        %end
+      </tr>
+    %end
+  % end
+
+  % if patient_antibodies_data==None:
+        <tr><td colspan=4>No recipient HLA antibodies data found</td></tr>
+  % end
+</table>

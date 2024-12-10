@@ -139,9 +139,9 @@ def get_patient_detail():
     psw=request.forms.get("psw")
     return template("get_patient_detail.html",uname=uname,psw=psw)
 
-@route('/view_patient_detail', method='POST')
+@route('/view_donor_detail', method='POST')
 @decorate_verify_user
-def view_patient_detail():
+def view_donor_detail():
   m=mysql_lis()
   con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)
   patient_id=request.forms.get("patient_id")
@@ -156,13 +156,17 @@ def view_patient_detail():
 
 
   if(patient_data==None):
-    return "<h3>No donor data found for such donor id</h3>"
     logging.debug("No donor data found for such donor id")
   
   num_fields = len(cur.description)
   field_names = [i[0] for i in cur.description]  
   logging.debug("field_names:{}".format(field_names))
-  data_dict=dict(zip(field_names,patient_data))
+  
+  if(patient_data==None):
+    data_dict=None
+  else:
+    data_dict=dict(zip(field_names,patient_data))
+    
   logging.debug("data_dict:{}".format(data_dict))
   m.close_link(con)
   html_data={
@@ -172,7 +176,7 @@ def view_patient_detail():
   'data_dict':data_dict
   }
   print(data_dict)
-  return template("view_patient_detail.html",html_data)
+  return template("view_donor_detail.html",html_data)
   
 @route('/view_recipient_detail', method='POST')
 @decorate_verify_user
@@ -180,6 +184,8 @@ def view_recipient_detail():
   m=mysql_lis()
   con=m.get_link(astm_var.my_host,astm_var.my_user,astm_var.my_pass,astm_var.my_db)
   patient_id=request.forms.get("patient_id")
+
+  #############HLA Details#############
   sql='select * from recipient where patient_id=%s'
   logging.debug("sql:{}".format(sql))
   data_tpl=(patient_id,)
@@ -191,24 +197,43 @@ def view_recipient_detail():
 
 
   if(patient_data==None):
-    return "<h3>No recipient data found for such patient id</h3>"
     logging.debug("No recipient data found for such patient id")
-
+    
   
   num_fields = len(cur.description)
   field_names = [i[0] for i in cur.description]  
   logging.debug("field_names:{}".format(field_names))
-  data_dict=dict(zip(field_names,patient_data))
+  if(patient_data==None):
+    data_dict=None
+  else:
+    data_dict=dict(zip(field_names,patient_data))
   logging.debug("data_dict:{}".format(data_dict))
+  m.close_cursor(cur)
+  
+  #############HLA single antigen Details#############
+  sql='select * from recipient_antibodies where patient_id=%s'
+  logging.debug("sql:{}".format(sql))
+  data_tpl=(patient_id,)
+  logging.debug("data_tpl:{}".format(data_tpl))
+  cur=m.run_query(con,prepared_sql=sql,data_tpl=data_tpl)
+  logging.debug("last_message{}".format(m.last_message))
+  patient_antibodies_data=m.get_all_rows(cur)
+  logging.debug("patient_antibodies_data:{}".format(patient_data))
+
+
+  if(patient_antibodies_data==None):
+    logging.debug("No recipient_antibodies data found for such patient id")
+  m.close_cursor(cur)
+  
   m.close_link(con)
   html_data={
   'patient_id':request.forms.get("patient_id"),
   'last_message':m.last_message,
   'patient_data':patient_data,
-  'data_dict':data_dict
+  'data_dict':data_dict,
+  'patient_antibodies_data':patient_antibodies_data
   }
-  print(data_dict)
-  return template("view_patient_detail.html",html_data)
+  return template("view_recipient_detail.html",html_data)
   
 
 @route('/save_new_patient', method='POST')

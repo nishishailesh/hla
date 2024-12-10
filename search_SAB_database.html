@@ -43,7 +43,7 @@
 -->
 <!--{{donor_data_string}}-->
 <button type=button class="btn btn-block btn-primary"
- data-toggle="collapse" data-target="#mfi"  >ABO + Rh matched patient's Single Antigen MFI data</button>
+ data-toggle="collapse" data-target="#mfi"  >ABO + Rh matched recipient's single Antigen MFI data</button>
 <div id="mfi" class="collapse">
 
   %for one_pid in grand_data:
@@ -72,9 +72,6 @@
           if  one_patient_data[3]>500:
             cl="text-danger"
           end
-          
-
-          
           %>
 
           <tr>
