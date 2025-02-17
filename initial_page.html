@@ -2,35 +2,59 @@
   from bottle import url
   view_antigen_url=url("/view_antigen")
   get_SAB_plate_csv_url=url("/get_SAB_plate_csv")
-  get_patient_detail_url=url("/get_patient_detail")
+  
+  get_donor_detail_url=url("/get_donor_detail")
+  get_recipient_detail_url=url("/get_recipient_detail")
+  
   view_donor_detail_url=url("/view_donor_detail")
+  view_recipient_detail_url=url("/view_recipient_detail")
+  
   search_SAB_database_url=url("/search_SAB_database")
+  
+  save_class_one_import_url=url("/save_class_one_import")
+  save_class_two_import_url=url("/save_class_two_import")
+
   #print("######:"+u)
 %>
 % include("bootstrap_links.html")
-<!--
-<form method=post>
+
+<style>
+#main_page
+{
+  display:grid;
+
+  grid-template-areas:
+    "head       head"
+    "donor1     recipient1"
+    "donor2     recipient2"
+    "SAB1       SAB2"
+    "match      match"
+    "help       help";
+    
+    gap: 10px;
+  background-color: lightgray;
+    padding: 10px;
+
+}
+    
+</style>
+
+<div id=main_page>
+
+  <h5 style="grid-area: head;" class="text-center">Diseased-Donor Kidney Transplant Blood Group and HLA-antibodies Matching</h5>
+
+<form method=post style="grid-area: donor1;"class="bg-info p-2" >
 % include("pass_on.html")
-  <button type=submit formaction={{view_antigen_url}} formtarget=_blank name=action value=view_antigen>View Antigen database</button>
-  <button type=submit name=action value=edit_antigen>Edit Antigen database</button>
-  <button type=submit name=action value=new_antigen>Add new Antigen to database</button>
-</form>
--->
-
-<!--
-<form method=post>
-  <button type=submit formaction={{get_SAB_plate_csv_url}} formtarget=_blank name=action value=get_SAB_plate_csv>Get SAB Plate csv</button>
-  <button type=submit name=action value=edit_antigen>Edit Patient SAB</button>
+  <button class="btn btn-sm btn-warning" type=submit formaction={{get_donor_detail_url}} formtarget=_blank name=action value=get_SAB_plate_csv>Insert Donor ABO,Rh, HLA</button>
 </form>
 
--->
-
-<form method=post>
+<form method=post  style="grid-area: recipient1;" class="bg-primary p-2">
 % include("pass_on.html")
-  <button class="btn btn-sm btn-info" type=submit formaction={{get_patient_detail_url}} formtarget=_blank name=action value=get_SAB_plate_csv>Insert Donor ABO,Rh, HLA</button>
+  <button class="btn btn-sm btn-warning" type=submit formaction={{get_recipient_detail_url}} formtarget=_blank name=action value=get_SAB_plate_csv>Insert Recipient ABO,Rh, HLA </button>
 </form>
 
-<form method=post>
+
+<form method=post  style="grid-area: donor2;" class="bg-info p-2">
 % include("pass_on.html")
   Donor ID: <input type=number name=patient_id placeholder="Donor ID">
   <button type=submit class="btn btn-sm btn-warning"
@@ -38,12 +62,94 @@
   formtarget=_blank name=action value=view_donor_detail>View Donor ABO,Rh, HLA</button>
 </form>
 
-
-
-<form method=post>
+<form method=post  style="grid-area: recipient2;" class="bg-primary p-2">
 % include("pass_on.html")
-  Donor ID:<input type=number name=patient_id placeholder="Donor ID"> 
-  <button type=submit class="btn btn-sm btn-success" formaction={{search_SAB_database_url}} formtarget=_blank name=action value=search_SAB_database>Search Recipients</button>
+  Recipient ID: <input type=number name=patient_id placeholder="Recipient ID">
+  <button type=submit class="btn btn-sm btn-warning"
+  formaction={{view_recipient_detail_url}} 
+  formtarget=_blank name=action value=view_recipient_detail>View Recipient ABO,Rh, HLA and Antibody</button>
 </form>
 
-<h4>Demo Donor ID : 517601 </h4>
+<div style="grid-area: SAB2;" class="bg-primary w-100 h-100 p-2">
+<form method=post enctype="multipart/form-data" class="p-2 bg-primary">
+% include("pass_on.html")
+  <input  type=file name=file1>
+  <button type=submit class="btn btn-sm btn-warning"
+  formaction={{save_class_one_import_url}} 
+  formtarget=_blank name=action value=save_class_one_import>Recipient Single Antibody Class-I (One) Import</button>
+</form>
+
+<form method=post enctype="multipart/form-data" class="p-2 bg-primary">
+% include("pass_on.html")
+  <input  type=file name=file2>
+  <button  type=submit class="btn btn-sm btn-warning"
+  formaction={{save_class_two_import_url}} 
+  formtarget=_blank name=action value=save_class_two_import>Recipient Single Antibody Class-II (Two) Import</button>
+</form>
+
+
+</div>
+
+
+<form method=post style="grid-area: match;" class=" border border-2 border-primary bg-secondary w-100 h-100 p-2 text-center" >
+% include("pass_on.html")
+  Donor ID:<input type=number name=patient_id placeholder="Donor ID"> 
+  <button type=submit class="btn btn-sm btn-success" formaction={{search_SAB_database_url}} formtarget=_blank name=action value=search_SAB_database>Search Single Antibodies for BLood group matched Recipients</button>
+</form>
+
+
+<div style="grid-area: help;">
+<h2 class="bg-warning">Help</h2>
+<ol>
+  <li>Demo Donor ID : 112255, 517601</li>
+      <table class="table table-striped table-sm table-bordered">
+      <tr><td>112255</td></tr>
+      <tr><td>517601</td></tr>
+      </table>
+  <li>Demo Recipient IDs :   
+      <table class="table table-striped table-sm table-bordered">
+      <tr><td>356192</td></tr>
+      <tr><td>407061</td></tr>
+      <tr><td>444444</td></tr>
+      <tr><td>479091</td></tr>
+      <tr><td>479552</td></tr>
+      <tr><td>493480</td></tr>
+      <tr><td>511107</td></tr>
+      <tr><td>525520</td></tr>
+      <tr><td>526903</td></tr>
+      </table>
+  </li>
+  <li><h3>Operation summary</h3>
+      <ol> <h4 class="text-success">Main Page organization:</h4>
+        <li><b>Left side</b> is for donor related work</li>
+        <li><b>Right side</b> is for recipient  related work</li>
+        <li><b>Lower middle part</b> is for donor-recipient matching</li>
+      </ol>
+      <ol> <h4 class="text-success">How to use:</h4>
+        <ol><h5 class="text-primary">Donor:</h5>
+          <li>Insert new donor details (left-top)</li>
+          <li>View donor details by entering Donor ID (left-middle)</li>
+        </ol>
+        <ol><h5 class="text-primary">Recipient:</h5>
+          <li>Insert new Recipient details (right-top)</li>
+          <li>View recipient details (Demograpy as well as Antibodies)  by entering Donor ID (right-middle)</li>
+          <li>Insert new Recipient antibodies  Class-I and Class-II reports</li>
+          <ol><u>Note:</u>
+            <li>Recipient antibodies must be in CSV format</li>
+            <li>They will be available for the laboratory department</li>
+            <li>Do not open such CSV in other software / Do not make any change</li>
+            <li>If CSV file is changed data wil not be properly uploaded</li>
+            <li>It is good practice to verify uploaded data randomly with printed/PDF copy</li>
+            <li>View recipient  Antibodies data by entering Recipient ID at right-middle</li>
+          </ol>
+        </ol>
+        <ol><h5 class="text-primary">Donor Recipeint Matching:</h5>
+          <li>Enter donor ID</li>
+          <li>Search</li>
+          <li>It is good practice to verify results given randomly with donor and recipient data from printed/PDF copy</li>
+        </ol>        
+      </ol>
+  </li>
+</ol>
+</div>
+

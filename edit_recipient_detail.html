@@ -1,0 +1,53 @@
+% include("bootstrap_links.html")
+<!--{{data_dict}} -->
+
+<% 
+  from bottle import url
+  save_edited_recipient_url=url("/save_edited_recipient")
+%>
+<form method=post action={{save_edited_recipient_url}}>
+<table class="table table-sm table-striped">
+<tr><th colspan=2>Recipient HLA details</tr>
+%if data_dict!=None:
+% for fld in data_dict.keys():
+
+
+%   if(fld not in ['ABO','Rh']):      
+        <tr><td>{{fld}}</td><td><input type=text name={{fld}} value="{{data_dict[fld]}}"></td></tr>
+%   end
+
+
+%   if(fld =='ABO'):
+        <tr><td>{{fld}}</td><td>
+            <select name=ABO selected="{{data_dict[fld]}}">
+%               for i in ['','A','B','AB','O']:
+%                 selected=''
+%                 if(data_dict[fld]==i):
+%                   selected="selected"
+%                 end
+                  <option {{selected}}>{{i}}</option>                                             
+%               end
+            </select>
+        </td></tr>
+%   end
+
+
+%   if(fld =='Rh'):
+        <tr><td>{{fld}}</td><td>
+            <select name=Rh selected="{{data_dict[fld]}}">
+%               for i in ['','Positive','Negative']:
+%                 selected=''
+%                 if(data_dict[fld]==i):
+%                   selected="selected"
+%                 end
+                  <option {{selected}}>{{i}}</option>                                             
+%               end
+            </select>
+        </td></tr>
+%   end
+% end
+% include("pass_on.html")
+  <tr><td><button class="btn btn-sm btn-info w-100" type="submit" name=action value=save_edited_donor}}>Save</button></td></tr>
+%end
+</table>
+</form>

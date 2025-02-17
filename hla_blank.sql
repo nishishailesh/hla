@@ -31,6 +31,24 @@ CREATE TABLE `antigen` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `copy_recipient_antibodies`
+--
+
+DROP TABLE IF EXISTS `copy_recipient_antibodies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `copy_recipient_antibodies` (
+  `patient_id` varchar(50) NOT NULL,
+  `unique_string` varchar(100) NOT NULL,
+  `antigen_id` int(11) NOT NULL,
+  `mfi` int(11) NOT NULL,
+  `HLA_Type` varchar(100) NOT NULL,
+  `HLA_Serology` varchar(100) NOT NULL,
+  PRIMARY KEY (`patient_id`,`unique_string`,`antigen_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `donor`
 --
 
@@ -98,6 +116,8 @@ CREATE TABLE `recipient` (
   `HLA-DQA1_allele-2` varchar(10) DEFAULT NULL,
   `HLA-DQB1_allele-1` varchar(10) DEFAULT NULL,
   `HLA-DQB1_allele-2` varchar(10) DEFAULT NULL,
+  `active` varchar(10) DEFAULT NULL,
+  `remark` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`patient_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -115,8 +135,143 @@ CREATE TABLE `recipient_antibodies` (
   `antigen_id` int(11) NOT NULL,
   `mfi` int(11) NOT NULL,
   `HLA_Type` varchar(100) NOT NULL,
-  `HLA_Serology` varchar(100) NOT NULL,
   PRIMARY KEY (`patient_id`,`unique_string`,`antigen_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `single_antigen_1_csv_report`
+--
+
+DROP TABLE IF EXISTS `single_antigen_1_csv_report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `single_antigen_1_csv_report` (
+  `patient_id` varchar(70) NOT NULL,
+  `batch_id` varchar(70) NOT NULL,
+  `line` int(11) NOT NULL,
+  `f0` varchar(70) DEFAULT NULL,
+  `f1` varchar(70) DEFAULT NULL,
+  `f2` varchar(400) DEFAULT NULL,
+  `f3` varchar(70) DEFAULT NULL,
+  `f4` varchar(70) DEFAULT NULL,
+  `f5` varchar(70) DEFAULT NULL,
+  `f6` varchar(70) DEFAULT NULL,
+  `f7` varchar(70) DEFAULT NULL,
+  `f8` varchar(70) DEFAULT NULL,
+  `f9` varchar(70) DEFAULT NULL,
+  `f10` varchar(70) DEFAULT NULL,
+  `f11` varchar(70) DEFAULT NULL,
+  `f12` varchar(70) DEFAULT NULL,
+  `f13` varchar(70) DEFAULT NULL,
+  `f14` varchar(70) DEFAULT NULL,
+  `f15` varchar(70) DEFAULT NULL,
+  `f16` varchar(70) DEFAULT NULL,
+  `f17` varchar(70) DEFAULT NULL,
+  `f18` varchar(70) DEFAULT NULL,
+  `f19` varchar(70) DEFAULT NULL,
+  `f20` varchar(70) DEFAULT NULL,
+  `f21` varchar(70) DEFAULT NULL,
+  `f22` varchar(70) DEFAULT NULL,
+  `f23` varchar(70) DEFAULT NULL,
+  `f24` varchar(70) DEFAULT NULL,
+  `f25` varchar(70) DEFAULT NULL,
+  `f26` varchar(70) DEFAULT NULL,
+  `f27` varchar(70) DEFAULT NULL,
+  `f28` varchar(70) DEFAULT NULL,
+  `f29` varchar(70) DEFAULT NULL,
+  `f30` varchar(70) DEFAULT NULL,
+  `f31` varchar(70) DEFAULT NULL,
+  `f32` varchar(70) DEFAULT NULL,
+  `f33` varchar(70) DEFAULT NULL,
+  `f34` varchar(70) DEFAULT NULL,
+  `f35` varchar(70) DEFAULT NULL,
+  `f36` varchar(70) DEFAULT NULL,
+  `f37` varchar(70) DEFAULT NULL,
+  `f38` varchar(70) DEFAULT NULL,
+  `f39` varchar(70) DEFAULT NULL,
+  `f40` varchar(70) DEFAULT NULL,
+  `f41` varchar(70) DEFAULT NULL,
+  `f42` varchar(70) DEFAULT NULL,
+  `f43` varchar(70) DEFAULT NULL,
+  `f44` varchar(70) DEFAULT NULL,
+  `f45` varchar(70) DEFAULT NULL,
+  `f46` varchar(70) DEFAULT NULL,
+  `f47` varchar(70) DEFAULT NULL,
+  `f48` varchar(70) DEFAULT NULL,
+  `f49` varchar(70) DEFAULT NULL,
+  `f50` varchar(70) DEFAULT NULL,
+  `f51` varchar(70) DEFAULT NULL,
+  PRIMARY KEY (`patient_id`,`batch_id`,`line`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `single_antigen_2_csv_report`
+--
+
+DROP TABLE IF EXISTS `single_antigen_2_csv_report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `single_antigen_2_csv_report` (
+  `patient_id` varchar(70) NOT NULL,
+  `batch_id` varchar(70) NOT NULL,
+  `line` int(11) NOT NULL,
+  `f0` varchar(70) DEFAULT NULL,
+  `f1` varchar(70) DEFAULT NULL,
+  `f2` varchar(400) DEFAULT NULL,
+  `f3` varchar(70) DEFAULT NULL,
+  `f4` varchar(70) DEFAULT NULL,
+  `f5` varchar(70) DEFAULT NULL,
+  `f6` varchar(70) DEFAULT NULL,
+  `f7` varchar(70) DEFAULT NULL,
+  `f8` varchar(70) DEFAULT NULL,
+  `f9` varchar(70) DEFAULT NULL,
+  `f10` varchar(70) DEFAULT NULL,
+  `f11` varchar(70) DEFAULT NULL,
+  `f12` varchar(70) DEFAULT NULL,
+  `f13` varchar(70) DEFAULT NULL,
+  `f14` varchar(70) DEFAULT NULL,
+  `f15` varchar(70) DEFAULT NULL,
+  `f16` varchar(70) DEFAULT NULL,
+  `f17` varchar(70) DEFAULT NULL,
+  `f18` varchar(70) DEFAULT NULL,
+  `f19` varchar(70) DEFAULT NULL,
+  `f20` varchar(70) DEFAULT NULL,
+  `f21` varchar(70) DEFAULT NULL,
+  `f22` varchar(70) DEFAULT NULL,
+  `f23` varchar(70) DEFAULT NULL,
+  `f24` varchar(70) DEFAULT NULL,
+  `f25` varchar(70) DEFAULT NULL,
+  `f26` varchar(70) DEFAULT NULL,
+  `f27` varchar(70) DEFAULT NULL,
+  `f28` varchar(70) DEFAULT NULL,
+  `f29` varchar(70) DEFAULT NULL,
+  `f30` varchar(70) DEFAULT NULL,
+  `f31` varchar(70) DEFAULT NULL,
+  `f32` varchar(70) DEFAULT NULL,
+  `f33` varchar(70) DEFAULT NULL,
+  `f34` varchar(70) DEFAULT NULL,
+  `f35` varchar(70) DEFAULT NULL,
+  `f36` varchar(70) DEFAULT NULL,
+  `f37` varchar(70) DEFAULT NULL,
+  `f38` varchar(70) DEFAULT NULL,
+  `f39` varchar(70) DEFAULT NULL,
+  `f40` varchar(70) DEFAULT NULL,
+  `f41` varchar(70) DEFAULT NULL,
+  `f42` varchar(70) DEFAULT NULL,
+  `f43` varchar(70) DEFAULT NULL,
+  `f44` varchar(70) DEFAULT NULL,
+  `f45` varchar(70) DEFAULT NULL,
+  `f46` varchar(70) DEFAULT NULL,
+  `f47` varchar(70) DEFAULT NULL,
+  `f48` varchar(70) DEFAULT NULL,
+  `f49` varchar(70) DEFAULT NULL,
+  `f50` varchar(70) DEFAULT NULL,
+  `f51` varchar(70) DEFAULT NULL,
+  `f52` varchar(70) DEFAULT NULL,
+  `f53` varchar(70) DEFAULT NULL,
+  PRIMARY KEY (`patient_id`,`batch_id`,`line`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -150,4 +305,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-10 13:36:36
+-- Dump completed on 2025-02-17 23:32:27

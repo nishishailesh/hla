@@ -23,7 +23,7 @@ class mysql_lis(object):
       logging.debug(msg)
       self.last_message=msg
     except Exception as ex:
-      logging.debug('{}'.format(ex))
+      logging.debug('run_query(self,con,prepared_sql,data_tpl):: {}'.format(ex))
       self.last_message='{}'.format(ex)
       return False
     return cur

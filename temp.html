@@ -1,0 +1,13 @@
+temp html
+
+<!--
+{{html_data}}
+-->
+%if html_data!=None: 
+  <table class="table table-sm table-striped">
+  <tr><th>Parameter</th><th>Value</th></tr>
+  %for i in html_data:
+    <tr><td>{{i}}</td><td>{{!html_data[i]}}</td></tr>
+  %end
+  </table>
+%end

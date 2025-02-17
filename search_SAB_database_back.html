@@ -1,0 +1,168 @@
+% include("bootstrap_links.html")
+<% 
+  from bottle import url
+  view_recipient_detail_url=url("/view_recipient_detail")
+%>
+
+<style>
+hr { 
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: dashed;
+  border-width: 3px;
+  color:green;
+  width: 70%;
+} 
+
+#main
+{
+display:grid;
+grid-template-areas: 'head head head head head head head head head head'
+                     'menu menu menu data data data data data data data'
+                     'menu menu menu data data data data data data data'  
+                     'menu menu menu data data data data data data data'  
+                     'menu menu menu data data data data data data data'  
+                     'menu menu menu data data data data data data data';  
+
+grid-template-rows: 1fr 9fr;
+}
+
+</style>
+
+<div class=main>
+<h1 class=data>My First Heading</h1>
+<p class=menu>My first paragraph.</p>
+</div>
+
+
+<div class="main">
+<h1 style="grid-area: menu;">IKDRC Cadeveric renal transplant matching</h1>
+
+<button type=button class="btn btn-block btn-primary" data-toggle="collapse" data-target="#donor_information" style="grid-area: menu;" >Donor Information</button>
+<div id="donor_information" class="collapse" style="grid-area: data;">
+  <table class="table table-sm table-striped  table-hover table-bordered border-danger">
+  <tr><th colspan=2 class=text-center>Donor Details</th></tr>
+  <tr><th>Field</th><th>Value</th></tr>
+  %for key in donor_data:
+    <tr>
+      <td>{{key}}</td><td>{{donor_data[key]}}</td>
+    </tr>
+  %end
+  </table>
+</div>
+<hr><hr>
+
+
+
+
+
+
+<button type=button class="btn btn-block btn-primary" data-toggle="collapse" data-target="#abo_rh"  >Matching ABO/Rh recipients</button>
+<div id="abo_rh" class="collapse">
+  <table class="table table-sm table-striped  table-hover table-bordered border-primary">
+  <tr><th colspan=4 class=text-center>ABO Matched Recipient List</th></tr>
+  <tr><th>Recipient ID</th><th>ABO</th><th>Rh</th><th>Name</th></tr>
+  %for one_raw in recipient_data:
+    % if len(one_raw)>0:
+      % if(len(one_raw)>0):
+        <tr>
+          %for one_cell in one_raw:
+          <td>{{one_cell}}</td>
+          %end
+        </tr>
+      %end
+    %end
+  %end
+  </table>
+</div>
+<hr><hr>
+
+
+
+
+
+
+%for patient_antibodies_data in all_ABO_matched_recipient_data_1:
+  % if len(patient_antibodies_data)!=0:
+    <table class="table table-sm table-striped table-bordered table-hover table-striped">
+    <tr><th colspan=3 class="bg-warning">ABO Matched Recipient's Class-I Antibody details (if Available in database)</tr>
+    <tr><th>Patient ID</th><th>Batch ID</th><th>Line</th></tr>
+        %for one_raw in patient_antibodies_data:
+          <tr>
+            %for one_cell in one_raw:
+            <td>{{one_cell}}</td>
+            %end
+          </tr>
+        %end
+    </table>
+  % end
+
+  <!-- % if len(patient_antibodies_data)==0:       <tr><td colspan=4>No recipient HLA antibodies data found</td></tr>  % end -->
+%end
+
+<hr><hr>
+%for patient_antibodies_data in all_ABO_matched_recipient_data_2:
+  % if len(patient_antibodies_data)!=0:
+    <table class="table table-sm table-striped table-bordered table-hover table-striped">
+    <tr><th colspan=3 class="bg-warning">ABO Matched Recipient's Class-II Antibody details (if Available in database)</tr>
+    <tr><th>Patient ID</th><th>Batch ID</th><th>Line</th></tr>
+        %for one_raw in patient_antibodies_data:
+          <tr>
+            %for one_cell in one_raw:
+            <td>{{one_cell}}</td>
+            %end
+          </tr>
+        %end
+    </table>
+  % end
+
+  <!-- % if len(patient_antibodies_data)==0:       <tr><td colspan=4>No recipient HLA antibodies data found</td></tr>  % end -->
+%end
+
+
+
+<hr><hr>
+
+<table class="table table-sm table-striped table-bordered table-hover table-striped">
+<tr><th colspan=3 class="bg-warning">Donor Matched HLA CLASS I antibody MFI for Recipients ( Recipients are ABO Matched )</th></tr>
+</tr>
+%for one_raw in all_mfi_ABO_matched_recipient_data_1:
+% if(len(one_raw)>0):
+  <tr>
+    %for one_cell in one_raw:
+    <td>{{one_cell}}</td>
+    %end
+  </tr>
+%end
+%end
+</table>
+
+
+
+<table class="table table-sm table-striped table-bordered table-hover table-striped">
+<tr><th colspan=3 class="bg-warning">Donor Matched HLA CLASS II antibody MFI for Recipients ( Recipients are ABO Matched )</th></tr>
+
+%for one_raw in all_mfi_ABO_matched_recipient_data_2:
+  %if(len(one_raw)>0):
+    <tr>
+      %for one_cell in one_raw:
+      <td>{{one_cell}}</td>
+      %end
+    </tr>
+  %end
+%end
+</table>
+
+
+
+</div>
+
+
+
+<div class=main>
+<h1 class=data>My First Heading</h1>
+<p class=menu>My first paragraph.</p>
+</div>

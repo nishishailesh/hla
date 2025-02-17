@@ -1,0 +1,18 @@
+% include("bootstrap_links.html")
+<% 
+  from bottle import url
+  view_donor_detail_url=url("/view_donor_detail")
+%>
+<h5 class="text-info">Saving (new/edit) donor details...</h5>
+<h4 class="text-warning">{{last_message}}</h4>
+
+<form method=post>
+<button type=submit
+        class="btn btn-sm btn-info"
+        formaction={{view_donor_detail_url}} 
+        name=patient_id 
+        value={{pid}}>Patient ID: {{pid}} (View Details)
+</button>
+% include("pass_on.html")
+</form>
+

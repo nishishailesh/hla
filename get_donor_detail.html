@@ -1,0 +1,76 @@
+% include("bootstrap_links.html")
+<% 
+  from bottle import url
+  save_new_donor_url=url("/save_new_donor")
+%>
+<h5 class="text-info">Fill Details of Donor</h5>
+
+<form method=post action={{save_new_donor_url}}>
+<table class="table table-sm table table striped">
+    <tr>
+        <td>patient_id</td><td><input type=number name=patient_id></td>
+        <td>name</td><td><input type=text name=name></td>
+    </tr>
+    <tr>
+        <td>ABO</td>
+        <td>
+            <select name=ABO>
+                <option></option>
+                <option>A</option>
+                <option>B</option>
+                <option>AB</option>
+                <option>O</option>                                                
+            </select>
+        </td>
+        <td>Rh</td>
+        <td>
+            <select name=Rh>
+                <option></option>
+                <option>Positive</option>
+                <option>Negative</option>
+            </select>
+        </td>        
+    </tr>
+    <tr>
+        <td>HLA-A_allele-1</td><td><input type=text name=HLA-A_allele-1></td>
+        <td>HLA-A_allele-2</td><td><input type=text name=HLA-A_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-B_allele-1</td><td><input type=text name=HLA-B_allele-1></td>
+        <td>HLA-B_allele-2</td><td><input type=text name=HLA-B_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-Bw_allele-1</td><td><input type=text name=HLA-Bw_allele-1></td>
+        <td>HLA-Bw_allele-2</td><td><input type=text name=HLA-Bw_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-Cw_allele-1</td><td><input type=text name=HLA-Cw_allele-1></td>
+        <td>HLA-Cw_allele-2</td><td><input type=text name=HLA-Cw_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-DRB1_allele-1</td><td><input type=text name=HLA-DRB1_allele-1></td>
+        <td>HLA-DRB1_allele-2</td><td><input type=text name=HLA-DRB1_allele-2></td>
+    </tr>
+        <tr><td>HLA-DRB3_allele-1</td><td><input type=text name=HLA-DRB3_allele-1></td>
+        <td>HLA-DRB3_allele-2</td><td><input type=text name=HLA-DRB3_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-DRB4_allele-1</td><td><input type=text name=HLA-DRB4_allele-1></td>
+        <td>HLA-DRB4_allele-2</td><td><input type=text name=HLA-DRB4_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-DRB5_allele-1</td><td><input type=text name=HLA-DRB5_allele-1></td>
+        <td>HLA-DRB5_allele-2</td><td><input type=text name=HLA-DRB5_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-DQA1_allele-1</td><td><input type=text name=HLA-DQA1_allele-1></td>
+        <td>HLA-DQA1_allele-2</td><td><input type=text name=HLA-DQA1_allele-2></td>
+    </tr>
+    <tr>
+        <td>HLA-DQB1_allele-1</td><td><input type=text name=HLA-DQB1_allele-1></td>
+        <td>HLA-DQB1_allele-2</td><td><input type=text name=HLA-DQB1_allele-2></td>
+    </tr>
+  </table>
+  % include("pass_on.html")
+    <button class="btn btn-sm btn-info w-100" type="submit" name=action value={{save_new_donor_url}}>Save</button>
+</form>
