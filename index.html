@@ -4,14 +4,18 @@
   #print("######:"+u)
 %>
 
-<form action={{start_url}} method="post">
+% include("bootstrap_links.html")
+
+<h2 class="text-dark text-center">Deceased Donor Renal Transplant</h2>
+<h3 class="text-dark text-center">Blood Group and Recipient HLA Antibody Matching Utility</h3>
+<form action={{start_url}} method="post"  class="form-group container container-sm mx-auto jumbotron  bg-light m-0 p-3">
   <div class="container">
     <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+    <input class="form-control" type="text" placeholder="Enter Username" name="uname" required>
 
     <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+    <input class="form-control" type="password" placeholder="Enter Password" name="psw" required>
 
-    <button type="submit">Login</button>
+    <button class="btn btn-primary" type="submit">Login</button>
   </div>
 </form>
